@@ -1,0 +1,20 @@
+module.exports = [
+    {
+        id:1,
+        name:"alper",
+        lastname:"demirci",
+        location:{
+            town:"Tarrytown",
+            state:"NY"
+        }
+    },
+    {
+        id:2,
+        name:"John",
+        lastname:"Doe",
+        location:{
+            town:"Fairfiled",
+            state:"CT"
+        }
+    }
+]
