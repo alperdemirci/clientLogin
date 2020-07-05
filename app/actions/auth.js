@@ -1,6 +1,13 @@
+const DB = require('./db');
 
+
+
+//canst db = require('./db');
 
 class Auctions {
+    constructor(){
+        this.dbConnected = new DB();
+    }
 
     signup = async () => {
         return 'signout';
@@ -12,7 +19,9 @@ class Auctions {
         }
         
         logout = async () => {
-            return 'logout';
+            
+            const ttt = await this.dbConnected.get()
+            return ttt;
         }
 }
 
