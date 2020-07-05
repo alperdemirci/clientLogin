@@ -1,36 +1,39 @@
 // const { init } = require('../routes');
 const Promise = require('bluebird');
+const ObjectID = require('mongodb').ObjectID;
 
 const MongoClient = require('mongodb').MongoClient;
 const uri = require('../../cred')().url;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
-
-
-
 class DB {
     // constructor() {
     //     this.client={};
     // }
-    async init() {
-        
-            return new Promise((resolve)=> {
-                if(!this.client) {
-                    return client.connect(err => {
-                        console.log('connected');
-                        //const collection = client.db("test").collection("devices");
-                        // perform actions on the collection object
+    async connect() {
+        return new Promise((resolve) => {
+            if (!this.client) {
+                return client.connect(err => {
+                    console.log('connected');
+                    //const collection = client.db("test").collection("devices");
+                    // perform actions on the collection object
                     this.client = client;
                     resolve();
-                  });
+                });
 
-                 } else resolve();
-            })
-        
+            } else resolve();
+        })
+
     }
-    get = async (collection, id) => {
-        const ttt = await this.init();
-        let result = await this.client.db('clientLogin').collection('users').find().toArray();
+    disconnect = () => {
+        this.client.close();
+    }
+    get = async (collection, query={}) => {
+        const newQuery = { ...query };
+        if(query._id) newQuery._id=Helper.objectIDConverter(query._id)
+
+        await this.connect();
+        const result = await this.client.db('clientLogin').collection(collection).find(newQuery).toArray();
         return result;
 
     }
@@ -42,6 +45,12 @@ class DB {
     delete = () => {
 
     }
+}
+
+class Helper {
+    static objectIDConverter = (id) => {
+        return ObjectID(id);
+    } 
 }
 
 module.exports = DB;

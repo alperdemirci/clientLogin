@@ -1,4 +1,5 @@
 const DB = require('./db');
+// const  = require('bluebird');
 
 
 
@@ -14,14 +15,14 @@ class Auctions {
         }
         
         login = async () => {
-        
             return 'login';
         }
         
         logout = async () => {
-            
-            const ttt = await this.dbConnected.get()
-            return ttt;
+            return await this.dbConnected.get();
+        }
+        getUser = async (...args) => {
+            return await this.dbConnected.get(...args);
         }
 }
 
